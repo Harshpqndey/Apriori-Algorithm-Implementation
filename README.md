@@ -48,3 +48,13 @@ Lift(Burger→Ketchup) = (Confidence (Burger→Ketchup))/(Support (Ketchup))
 Lift(Burger→Ketchup) = 33.3/10
                      = 3.33
 Lift basically tells us that the likelihood of buying a Burger and Ketchup together is 3.33 times more than the likelihood of just buying the ketchup. A Lift of 1 means there is no association between products A and B. Lift of greater than 1 means products A and B are more likely to be bought together. Finally, Lift of less than 1 refers to the case where two products are unlikely to be bought together.
+
+# Steps Involved in Apriori Algorithm
+For large sets of data, there can be hundreds of items in hundreds of thousands transactions. The Apriori algorithm tries to extract rules for each possible combination of items. For instance, Lift can be calculated for item 1 and item 2, item 1 and item 3, item 1 and item 4 and then item 2 and item 3, item 2 and item 4 and then combinations of items e.g. item 1, item 2 and item 3; similarly item 1, item2, and item 4, and so on.
+
+As you can see from the above example, this process can be extremely slow due to the number of combinations. To speed up the process, we need to perform the following steps:
+
+1) Set a minimum value for support and confidence. This means that we are only interested in finding rules for the items that have certain default existence (e.g. support) and have a minimum value for co-occurrence with other items (e.g. confidence).
+2) Extract all the subsets having higher value of support than minimum threshold.
+3) Select all the rules from the subsets with confidence value higher than minimum threshold.
+4) Order the rules by descending order of Lift.
