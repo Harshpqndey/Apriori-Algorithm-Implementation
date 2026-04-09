@@ -68,3 +68,55 @@ import pandas as pd
 from apyori import apriori 
 ```
 In the script above we import pandas, numpy, pyplot, and apriori libraries.
+
+
+
+## 2) Importing the Dataset
+Now let's import the dataset and see what we're working with. Download the dataset and place it in the "Datasets" folder of the "D" drive (or change the code below to match the path of the file on your computer) and execute the following script:
+
+```python store_data = pd.read_csv('D:\\Datasets\\store_data.csv')```
+
+Let's call the head() function to see how the dataset looks:
+
+```python store_data.head()```
+
+Store data preview with header
+A snippet of the dataset is shown in the above screenshot. If you carefully look at the data, we can see that the header is actually the first transaction. Each row corresponds to a transaction and each column corresponds to an item purchased in that specific transaction. The NaN tells us that the item represented by the column was not purchased in that specific transaction.
+
+In this dataset there is no header row. But by default, pd.read_csv function treats first row as header. To get rid of this problem, add header=None option to pd.read_csv function, as shown below:
+
+```python store_data = pd.read_csv('D:\\Datasets\\store_data.csv', header=None)```
+
+Now execute the head() function:
+
+```python store_data.head()```
+
+In this updated output you will see that the first line is now treated as a record instead of header as shown below:
+
+Store data preview without header
+Now we will use the Apriori algorithm to find out which items are commonly sold together, so that store owner can take action to place the related items together or advertise them together in order to have increased profit.
+
+
+
+## 3) Data Proprocessing
+The Apriori library we are going to use requires our dataset to be in the form of a list of lists, where the whole dataset is a big list and each transaction in the dataset is an inner list within the outer big list. Currently we have data in the form of a pandas dataframe. To convert our pandas dataframe into a list of lists, execute the following script:
+```python
+records = []
+for i in range(0, 7501):
+    records.append([str(store_data.values[i,j]) for j in range(0, 20)])
+```
+
+
+
+## 4) Applying Apriori
+The next step is to apply the Apriori algorithm on the dataset. To do so, we can use the apriori class that we imported from the apyori library.
+
+The apriori class requires some parameter values to work. The first parameter is the list of list that you want to extract rules from. The second parameter is the min_support parameter. This parameter is used to select the items with support values greater than the value specified by the parameter. Next, the min_confidence parameter filters those rules that have confidence greater than the confidence threshold specified by the parameter. Similarly, the min_lift parameter specifies the minimum lift value for the short listed rules. Finally, the min_length parameter specifies the minimum number of items that you want in your rules.
+
+Let's suppose that we want rules for only those items that are purchased at least 5 times a day, or 7 x 5 = 35 times in one week, since our dataset is for a one-week time period. The support for those items can be calculated as 35/7500 = 0.0045. The minimum confidence for the rules is 20% or 0.2. Similarly, we specify the value for lift as 3 and finally min_length is 2 since we want at least two products in our rules. These values are mostly just arbitrarily chosen, so you can play with these values and see what difference it makes in the rules you get back out.
+
+Execute the following script:
+```python
+association_rules = apriori(records, min_support=0.0045, min_confidence=0.2, min_lift=3, min_length=2)
+association_results = list(association_rules)
+```
