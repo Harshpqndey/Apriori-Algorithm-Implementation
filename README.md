@@ -120,3 +120,85 @@ Execute the following script:
 association_rules = apriori(records, min_support=0.0045, min_confidence=0.2, min_lift=3, min_length=2)
 association_results = list(association_rules)
 ```
+
+In the second line here we convert the rules found by the apriori class into a list since it is easier to view the results in this form.
+
+
+## 5) Viewing the Results
+Let's first find the total number of rules mined by the apriori class. Execute the following script:
+
+```python
+print(len(association_rules))
+```
+
+The script above should return 48. Each item corresponds to one rule.
+
+Let's print the first item in the association_rules list to see the first rule. Execute the following script:
+
+```python
+print(association_rules[0])
+```
+
+The output should look like this:
+
+```python
+RelationRecord(items=frozenset({'light cream', 'chicken'}), support=0.004532728969470737, ordered_statistics[OrderedStatistic(items_base=frozenset({'light cream'}), items_add=frozenset({'chicken'}), confidence=0.29059829059829057, lift=4.84395061728395)])
+```
+The following script displays the rule, the support, the confidence, and lift for each rule in a more clear way:
+
+```python
+for item in association_rules:
+
+    # first index of the inner list
+    # Contains base item and add item
+    pair = item[0] 
+    items = [x for x in pair]
+    print("Rule: " + items[0] + " -> " + items[1])
+
+    #second index of the inner list
+    print("Support: " + str(item[1]))
+
+    #third index of the list located at 0th
+    #of the third index of the inner list
+
+    print("Confidence: " + str(item[2][0][2]))
+    print("Lift: " + str(item[2][0][3]))
+    print("=====================================")
+```
+
+If you execute the above script, you will see all the rules returned by the apriori class. The first four rules returned by the apriori class look like this:
+
+```python
+Rule: light cream -> chicken
+Support: 0.004532728969470737
+Confidence: 0.29059829059829057
+Lift: 4.84395061728395
+=====================================
+Rule: mushroom cream sauce -> escalope
+Support: 0.005732568990801126
+Confidence: 0.3006993006993007
+Lift: 3.790832696715049
+=====================================
+Rule: escalope -> pasta
+Support: 0.005865884548726837
+Confidence: 0.3728813559322034
+Lift: 4.700811850163794
+=====================================
+Rule: ground beef -> herb & pepper
+Support: 0.015997866951073192
+Confidence: 0.3234501347708895
+Lift: 3.2919938411349285
+=====================================
+```
+The first item in the list is a list itself containing three items. The first item of the list shows the grocery items in the rule.
+
+For instance from the first item, we can see that light cream and chicken are commonly bought together. This makes sense since people who purchase light cream are careful about what they eat hence they are more likely to buy chicken i.e. white meat instead of red meat i.e. beef. Or this could mean that light cream is commonly used in recipes for chicken.
+
+The support value for the first rule is 0.0045. This number is calculated by dividing the number of transactions containing light cream divided by total number of transactions. The confidence level for the rule is 0.2905 which shows that out of all the transactions that contain light cream, 29.05% of the transactions also contain chicken. Finally, the lift of 4.84 tells us that chicken is 4.84 times more likely to be bought by the customers who buy light cream compared to the default likelihood of the sale of chicken.
+
+
+## 6) Conclusion
+
+Association rule mining algorithms such as Apriori are very useful for finding simple associations between our data items. They are easy to implement and have high explain-ability. However for more advanced insights, such those used by Google or Amazon etc., more complex algorithms, such as recommender systems, are used. However, you can probably see that this method is a very simple way to get basic associations if that's all your use-case needs.
+
+
