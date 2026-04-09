@@ -15,7 +15,7 @@ association_results = list(association_rules)
 print(len(association_rules))  //to check the Total Number of Rules mined
 print(association_rules[0])  // to print the first item the association_rules list to see the first rule
 
-for item in association_rules:                                          // to display the rule, the support, the confidence, and lift for each rule in a more clear way:
+for item in association_rules:                 // to display the rule, the support, the confidence, and lift for each rule in a more clear way:
 
     # first index of the inner list
     # Contains base item and add item
