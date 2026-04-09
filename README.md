@@ -58,3 +58,13 @@ As you can see from the above example, this process can be extremely slow due to
 2) Extract all the subsets having higher value of support than minimum threshold.
 3) Select all the rules from the subsets with confidence value higher than minimum threshold.
 4) Order the rules by descending order of Lift.
+
+## 1) Import the Libraries
+The first step, as always, is to import the required libraries. Execute the following script to do so:
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+from apyori import apriori 
+```
+In the script above we import pandas, numpy, pyplot, and apriori libraries.
